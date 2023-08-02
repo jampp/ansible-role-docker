@@ -19,6 +19,17 @@
     executable: "{{ docker_pip_bin }}"
   when: docker_pip_packages_install
 
+- name: Remove OpenSSL Python directory
+  file:
+    state: absent
+    path: /usr/lib/python3/dist-packages/OpenSSL
+
+- name: Reinstall pyopenssl
+  pip:
+    name: pyopenssl
+    state: forcereinstall
+    executable: "{{ docker_pip_bin }}"
+
 - name: Amazon Credential Helper
   get_url:
     url: "{{ docker_aws_credential_helper_pkg }}"
